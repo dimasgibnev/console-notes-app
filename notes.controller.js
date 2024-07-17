@@ -29,6 +29,17 @@ async function getNotes() {
   return Array.isArray(JSON.parse(notes)) ? JSON.parse(notes) : [];
 }
 
+async function updateNote(id, title) {
+  const notes = await getNotes();
+
+  const updatedNotes = notes.map((note) => {
+    return note.id === id ? { ...note, title: title|| note.title } : note;
+  });
+
+  await saveNotes(updatedNotes);
+  console.log(chalk.green(`note with id"${id}" has been update`));
+}
+
 async function printNotes() {
   const notes = await getNotes();
 
@@ -48,6 +59,8 @@ async function removeNote(id) {
 
 module.exports = {
   addNote,
+  getNotes,
   printNotes,
   removeNote,
+  updateNote,
 };
