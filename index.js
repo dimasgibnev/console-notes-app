@@ -20,6 +20,7 @@ app.use(
     extended: true,
   })
 );
+app.use(express.json());
 
 app.get("/", async (req, res) => {
   res.render("index", {
@@ -48,8 +49,8 @@ app.delete("/:id", async (req, res) => {
 });
 
 app.put("/:id", async (req, res) => {
-console.log(req.body); // Почему здесь пустой объект? у меня успешно данные отправляются.
-  await updateNote(req.params.id, req);
+  const { id, title } = req.body;
+  await updateNote(id, title);
   res.render("index", {
     title: "Express app",
     notes: await getNotes(),
